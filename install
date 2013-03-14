@@ -1,0 +1,42 @@
+#! /bin/csh -f
+set orig = "obj/cicero.dylib"
+set name = "cicero.dylib"
+set repo = "~/Sites/Build/ssp/"
+set loc = "/Library/MobileSubstrate/DynamicLibraries/"
+
+#cd build/Debug-iphoneos/${orig}.app
+
+if ( ( $1 == "repo" ) || ( $2 == "repo" ) || ( $3 == "repo" ) || ( $4 == "repo" ) )then
+	echo "Copying to repo"
+	cp $orig ${repo}/${loc}
+endif
+
+if ( ($1 == "ip16" ) || ( $2 == "ip16") || ( $3 == "ip16") || ( $4 == "ip16") ) then
+        set ip = $ip16
+        echo Installing $name
+        rsync -t $orig -ve ssh ${ip}:${loc}/$name
+        echo Restarting Safari
+        ssh $ip killall MobileSafari
+#killall SpringBoard
+endif
+
+if ( ($1 == "ip4" ) || ( $2 == "ip4") || ( $3 == "ip4") || ( $4 == "ip4") ) then
+        set ip = $ip4
+        echo Installing $name
+        rsync -t $orig -ve ssh ${ip}:${loc}/$name
+        echo Restarting Safari
+        ssh $ip killall MobileSafari
+#killall SpringBoard
+endif
+
+if ( ($1 == "ipad" ) || ( $2 == "ipad") || ( $3 == "ipad") || ( $4 == "ipad") ) then
+	set ip = $ipad
+	echo Installing $name
+	rsync -t $orig -ve ssh ${ip}:${loc}/$name 
+	echo Restarting Safari
+	ssh $ip killall MobileSafari
+#killall SpringBoard
+endif
+
+echo "Done..."
+
